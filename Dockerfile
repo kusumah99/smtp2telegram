@@ -1,4 +1,4 @@
-FROM golang:1.20-alpine3.18 AS builder
+FROM golang:1.22-alpine3.20 AS builder
 
 RUN apk add --no-cache git ca-certificates mailcap
 
