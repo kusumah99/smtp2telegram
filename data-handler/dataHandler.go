@@ -1,16 +1,20 @@
 package DataHandler
 
 import (
+	"fmt"
 	"io"
+	Configs "ksa-smtp-telegram/configs"
 	"log"
+	"strconv"
 	"strings"
 
+	tgbotapi "github.com/Syfaro/telegram-bot-api"
 	"github.com/mnako/letters"
 )
 
 type DataHandlerInterface interface {
 	OnMailCreated(data []byte, from string, to []string)
-	OnMailReceived(r io.Reader, from string, to []string) error
+	OnMailData(r io.Reader, from string, to []string) error
 }
 type DataHandlerStruct struct{}
 
@@ -30,7 +34,7 @@ func (h *DataHandlerStruct) OnMailCreated(data []byte, from string, to []string)
 
 }
 
-// func (h *DataHandlerStruct) OnMailReceived(r io.Reader) {
+// func (h *DataHandlerStruct) OnMailData(r io.Reader) {
 // 	m, err := mail.ReadMessage(r) // .ReadMessage(os.Stdin)
 // 	if err != nil {
 // 		log.Fatalln("Parse mail KO -", err)
@@ -64,7 +68,22 @@ func (h *DataHandlerStruct) OnMailCreated(data []byte, from string, to []string)
 // 	ParsePart(m.Body, params["boundary"], 1)
 // }
 
-func (h *DataHandlerStruct) OnMailReceived(r io.Reader, from string, to []string) error {
+func sendMessage(message string, users []string) {
+	for i := range users {
+		bot, err := tgbotapi.NewBotAPI(Configs.GlobalConfigs.TelegramToken)
+		if err != nil {
+			// log.Panic(err)
+			log.Println(err)
+			return
+		}
+		idChat, _ := strconv.ParseInt(users[i], 10, 64)
+		// msg := tgbotapi.NewMessage(idChat, "Message from Notitication API:\n"+message)
+		msg := tgbotapi.NewMessage(idChat, message)
+		bot.Send(msg)
+	}
+}
+
+func (h *DataHandlerStruct) OnMailData(r io.Reader, from string, to []string) error {
 	email, err := letters.ParseEmail(r)
 	if err != nil {
 		// log.Fatal(err)
@@ -78,6 +97,17 @@ func (h *DataHandlerStruct) OnMailReceived(r io.Reader, from string, to []string
 	log.Println("***********       SUBJECT : ", email.Headers.Subject)
 	log.Println("***********       DATA    : ", email.Text)
 	log.Println("*************           KSA Mail To Telegram END             ********************")
+
+	// Disini ke telegram pake:
+	// https://github.com/vns0/telegram-notification-goLang/blob/main/main.go
+	// aya fungsi:
+	// func sendMessage(message string, users []string)
+	// kirim ka multiple recepients
+	// didinya aya tgbotapi "github.com/Syfaro/telegram-bot-api", cara pakena simpel
+
+	teleString := fmt.Sprintf("From: %s\n%s", from, email.Text)
+
+	sendMessage(teleString, to)
 
 	return nil
 }

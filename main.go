@@ -2,18 +2,19 @@ package main
 
 import (
 	"log"
-	"os"
 
+	Configs "ksa-smtp-telegram/configs"
 	DataHandler "ksa-smtp-telegram/data-handler"
 	SmtpServer "ksa-smtp-telegram/smtp-server"
 )
 
 // var addr = "127.0.0.1:1025"
-var addr = "0.0.0.0:1025"
+// var addr = "0.0.0.0:1025"
 
 func main() {
 
-	addr = os.Getenv("ST_SMTP_LISTEN")
+	addr := Configs.GlobalConfigs.HostAddress
+	// addr = os.Getenv("ST_SMTP_LISTEN")
 	dtHandler := DataHandler.DataHandlerStruct{}
 	SmtpServer.SetDataMailHandler(&dtHandler)
 

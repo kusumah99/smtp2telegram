@@ -190,7 +190,7 @@ func (s *session) Data(r io.Reader) error {
 		return err
 	}
 
-	if err := dataHandler.OnMailReceived(r, s.msg.From, s.msg.To); err != nil {
+	if err := dataHandler.OnMailData(r, s.msg.From, s.msg.To); err != nil {
 		if s.backend.dataErrors != nil {
 			s.backend.dataErrors <- err
 		}
