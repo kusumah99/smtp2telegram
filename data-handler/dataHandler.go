@@ -118,7 +118,7 @@ func (h *DataHandlerStruct) OnMailData(r io.Reader, from string, to []string) er
 	// kirim ka multiple recepients
 	// didinya aya tgbotapi "github.com/Syfaro/telegram-bot-api", cara pakena simpel
 
-	teleString := fmt.Sprintf("From: %s\n%s", from, email.Text)
+	teleString := fmt.Sprintf("From: %s\n\n%s", from, strings.ReplaceAll(email.Text, "The Taiga Team", "Prabatech Admin")
 
 	sendMessage(teleString, to)
 
