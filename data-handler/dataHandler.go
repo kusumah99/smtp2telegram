@@ -10,7 +10,7 @@ import (
 
 type DataHandlerInterface interface {
 	OnMailCreated(data []byte, from string, to []string)
-	OnMailReceived(r io.Reader) error
+	OnMailReceived(r io.Reader, from string, to []string) error
 }
 type DataHandlerStruct struct{}
 
@@ -64,15 +64,17 @@ func (h *DataHandlerStruct) OnMailCreated(data []byte, from string, to []string)
 // 	ParsePart(m.Body, params["boundary"], 1)
 // }
 
-func (h *DataHandlerStruct) OnMailReceived(r io.Reader) error {
+func (h *DataHandlerStruct) OnMailReceived(r io.Reader, from string, to []string) error {
 	email, err := letters.ParseEmail(r)
 	if err != nil {
 		// log.Fatal(err)
 		return err
 	}
 	log.Println("*************           KSA Mail To Telegram Begin           ********************")
-	log.Println("***********       FROM    : ", email.Headers.From)
-	log.Println("***********       TO      : ", email.Headers.Sender)
+	// log.Println("***********       FROM    : ", email.Headers.From)
+	// log.Println("***********       TO      : ", email.Headers.To[0].)
+	log.Println("***********       FROM    : ", from)
+	log.Println("***********       TO      : ", strings.Join(to, ", "))
 	log.Println("***********       SUBJECT : ", email.Headers.Subject)
 	log.Println("***********       DATA    : ", email.Text)
 	log.Println("*************           KSA Mail To Telegram END             ********************")
