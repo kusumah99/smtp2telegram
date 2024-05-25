@@ -144,7 +144,7 @@ func (s *session) Rcpt(to string, opts *smtp.RcptOptions) error {
 	return nil
 }
 
-func (s *session) Data(r io.Reader) error {
+func (s *session) Data_Sebelumnya(r io.Reader) error {
 	if s.backend.dataErr != nil {
 
 		if s.backend.dataErrOffset != 0 {
@@ -173,6 +173,36 @@ func (s *session) Data(r io.Reader) error {
 	}
 	// ========================== Disini kirim ke telegram ====================
 	dataHandler.OnMailCreated(s.msg.Data, s.msg.From, s.msg.To)
+	return nil
+}
+
+func (s *session) Data(r io.Reader) error {
+	if s.backend.dataErr != nil {
+
+		if s.backend.dataErrOffset != 0 {
+			io.CopyN(io.Discard, r, s.backend.dataErrOffset)
+		}
+
+		err := s.backend.dataErr
+		if s.backend.dataErrors != nil {
+			s.backend.dataErrors <- err
+		}
+		return err
+	}
+
+	if err := dataHandler.OnMailReceived(r); err != nil {
+		if s.backend.dataErrors != nil {
+			s.backend.dataErrors <- err
+		}
+		return err
+	} else {
+		// s.msg.Data = b
+		// s.backend.mailmessage.Data = b
+		// s.backend.messages = append(s.backend.messages, s.msg)
+		if s.backend.dataErrors != nil {
+			s.backend.dataErrors <- nil
+		}
+	}
 	return nil
 }
 
