@@ -2,11 +2,15 @@ package DataHandler
 
 import (
 	"log"
+	"strings"
 )
 
-type MyDataHandler struct{}
+type DataHandlerInterface interface {
+	OnMailCreated(data []byte, from string, to []string)
+}
+type DataHandlerStruct struct{}
 
-func (h *MyDataHandler) OnMailCreated(data []byte, from string, to []string) {
+func (h *DataHandlerStruct) OnMailCreated(data []byte, from string, to []string) {
 	// Implementasi logika untuk memproses data
 
 	log.Println("****************************************************************************")
@@ -14,8 +18,8 @@ func (h *MyDataHandler) OnMailCreated(data []byte, from string, to []string) {
 	log.Println("*************           KSA Mail To Telegram            ********************")
 	log.Println("***********")
 	log.Println("***********       FROM: ", from)
-	log.Println("***********       TO:   ", to)
-	log.Println("***********       DATA: ", data)
+	log.Println("***********       TO:   ", strings.Join(to, ", "))
+	log.Println("***********       DATA: ", string(data))
 	log.Println("***********")
 	log.Println("****************************************************************************")
 	log.Println("****************************************************************************")

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"io"
+	DataHandler "ksa-smtp-telegram/data-handler"
 	"net"
 	"os"
 	"sync"
@@ -12,13 +13,13 @@ import (
 	"github.com/emersion/go-smtp"
 )
 
-type DataHandler interface {
-	OnMailCreated(data []byte, from string, to []string)
-}
+// type DataHandler interface {
+// 	OnMailCreated(data []byte, from string, to []string)
+// }
 
-var dataHandler DataHandler
+var dataHandler DataHandler.DataHandlerInterface
 
-func SetDataMailHandler(handler DataHandler) {
+func SetDataMailHandler(handler DataHandler.DataHandlerInterface) {
 	dataHandler = handler
 }
 
