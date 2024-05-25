@@ -76,7 +76,20 @@ func sendMessage(message string, users []string) {
 			log.Println(err)
 			return
 		}
-		idChat, _ := strconv.ParseInt(users[i], 10, 64)
+
+		// Check domain sufix
+		dest := strings.Split(users[i], "@")
+		if len(dest) != 2 {
+			continue
+		}
+		if dest[1] != Configs.GlobalConfigs.EmailSufixTelegram {
+			continue
+		}
+
+		idChat, err := strconv.ParseInt(dest[0], 10, 64)
+		if err != nil {
+			continue
+		}
 		// msg := tgbotapi.NewMessage(idChat, "Message from Notitication API:\n"+message)
 		msg := tgbotapi.NewMessage(idChat, message)
 		bot.Send(msg)

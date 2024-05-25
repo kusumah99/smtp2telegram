@@ -8,8 +8,9 @@ import (
 )
 
 type Global struct {
-	TelegramToken string
-	HostAddress   string
+	TelegramToken      string
+	HostAddress        string
+	EmailSufixTelegram string
 }
 
 var GlobalConfigs Global
@@ -21,4 +22,5 @@ func init() {
 	}
 	GlobalConfigs.TelegramToken = os.Getenv("TELEGRAM_TOKEN")
 	GlobalConfigs.HostAddress = os.Getenv("ST_SMTP_LISTEN")
+	GlobalConfigs.EmailSufixTelegram = os.Getenv("EMAIL_SUFIX_TELEGRAM")
 }
