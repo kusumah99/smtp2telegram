@@ -13,7 +13,7 @@ ARG GOPROXY=direct
 RUN CGO_ENABLED=0 GOOS=linux go build \
         -ldflags "-s -w \
             -X main.Version=${ST_VERSION:-UNKNOWN_RELEASE}" \
-			-a -o ksa-smtp-to-telegram
+			-a -o ksa-smtp2telegram
 
 
 
@@ -23,11 +23,11 @@ FROM alpine:3.18
 
 RUN apk add --no-cache ca-certificates mailcap
 
-COPY --from=builder /app/ksa-smtp-to-telegram /ksa-smtp-to-telegram
+COPY --from=builder /app/ksa-smtp2telegram /ksa-smtp2telegram
 
 USER daemon
 
-ENV ST_SMTP_LISTEN="0.0.0.0:2525"
-EXPOSE 2525
+ENV ST_SMTP_LISTEN="0.0.0.0:1025"
+EXPOSE 1025
 
-ENTRYPOINT ["/ksa-smtp-to-telegram"]
+ENTRYPOINT ["/ksa-smtp2telegram"]
