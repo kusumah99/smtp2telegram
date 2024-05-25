@@ -92,20 +92,20 @@ func (s *session) Auth(mech string) (sasl.Server, error) {
 	switch mech {
 	case "PLAIN":
 		return sasl.NewPlainServer(func(identity, username, password string) error {
-			if identity != "" && identity != username {
-				return errors.New("invalid identity")
-			}
-			if username != "username" || password != "password" {
-				return errors.New("invalid username or password")
-			}
+			// if identity != "" && identity != username {
+			// 	return errors.New("invalid identity")
+			// }
+			// if username != "username" || password != "password" {
+			// 	return errors.New("invalid username or password")
+			// }
 			s.anonymous = false
 			return nil
 		}), nil
 	case "LOGIN":
 		return sasl.NewLoginServer(func(username, password string) error {
-			if username != "username" || password != "password" {
-				return errors.New("invalid username or password")
-			}
+			// if username != "username" || password != "password" {
+			// 	return errors.New("invalid username or password")
+			// }
 			s.anonymous = false
 			return nil
 		}), nil
