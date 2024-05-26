@@ -40,7 +40,7 @@ FROM alpine:3.20
 RUN apk add --no-cache ca-certificates mailcap
 
 COPY --from=builder /app/ksa-smtp2telegram /ksa-smtp2telegram
-COPY --from=builder /app/.env /.env
+#COPY --from=builder /app/.env /.env    # remark to secure token
 
 USER daemon
 
