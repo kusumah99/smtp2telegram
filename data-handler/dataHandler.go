@@ -74,24 +74,24 @@ func sendMessage(message string, users []string) {
 		if err != nil {
 			// log.Panic(err)
 			log.Println(err)
-			log.Println("ERROR 1")
+			// log.Println("ERROR 1")
 			return
 		}
 
 		// Check domain sufix
 		dest := strings.Split(users[i], "@")
 		if len(dest) != 2 {
-			log.Println("ERROR 2")
+			log.Println("invalid email format")
 			continue
 		}
 		if dest[1] != Configs.GlobalConfigs.EmailDomainTelegram {
-			log.Println("ERROR 3", Configs.GlobalConfigs.EmailDomainTelegram)
+			log.Println("The target email should be in format <idChat>@" + Configs.GlobalConfigs.EmailDomainTelegram)
 			continue
 		}
 
 		idChat, err := strconv.ParseInt(dest[0], 10, 64)
 		if err != nil {
-			log.Println("ERROR 4")
+			log.Println("Invalide idChat: ", dest[0])
 			continue
 		}
 

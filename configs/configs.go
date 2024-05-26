@@ -22,4 +22,7 @@ func init() {
 	GlobalConfigs.TelegramToken = os.Getenv("TELEGRAM_TOKEN")
 	GlobalConfigs.ListenAddress = os.Getenv("SMTP_LISTEN_ADDRESS")
 	GlobalConfigs.EmailDomainTelegram = os.Getenv("EMAIL_DOMAIN_TELEGRAM")
+	if len(GlobalConfigs.EmailDomainTelegram) < 5 {
+		GlobalConfigs.EmailDomainTelegram = "kusumah99-tele.gram"
+	}
 }

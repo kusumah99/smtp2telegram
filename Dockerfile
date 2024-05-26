@@ -1,5 +1,5 @@
 # Jika menjalankan dengan Docker run:
-# $ docker run --env-file .env -d -p 25:1025 --name smtp2telegram kusumah99/smtp2telegram
+# $ docker run --restart=always --env-file .env -d -p 25:1025 --name smtp2telegram kusumah99/smtp2telegram
 #
 # Jika menggunakan docker compose, di section service, pasang sbb:
 # services:
