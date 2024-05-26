@@ -95,7 +95,7 @@ func sendMessage(message string, users []string) {
 			continue
 		}
 
-		strMsg := "**FOR YOU:** " + users[i] + "\n" + message
+		strMsg := "**TO     :** " + users[i] + "\n" + message
 		log.Println("************************   Text to Telegram    *************************")
 		log.Println(strMsg)
 		log.Println("*********************   KSA Mail To Telegram END   ************************")
