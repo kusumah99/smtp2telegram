@@ -8,9 +8,9 @@ import (
 )
 
 type Global struct {
-	TelegramToken      string
-	HostAddress        string
-	EmailSufixTelegram string
+	TelegramToken       string
+	ListenAddress       string
+	EmailDomainTelegram string
 }
 
 var GlobalConfigs Global
@@ -21,6 +21,6 @@ func init() {
 		log.Fatal("Error loading .env file")
 	}
 	GlobalConfigs.TelegramToken = os.Getenv("TELEGRAM_TOKEN")
-	GlobalConfigs.HostAddress = os.Getenv("ST_SMTP_LISTEN")
-	GlobalConfigs.EmailSufixTelegram = os.Getenv("EMAIL_SUFIX_TELEGRAM")
+	GlobalConfigs.ListenAddress = os.Getenv("SMTP_LISTEN_ADDRESS")
+	GlobalConfigs.EmailDomainTelegram = os.Getenv("EMAIL_DOMAIN_TELEGRAM")
 }

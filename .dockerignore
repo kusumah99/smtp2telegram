@@ -1,3 +1,5 @@
 .dockerignore
 .git
+main
 ksa-smtp-to-telegram
+

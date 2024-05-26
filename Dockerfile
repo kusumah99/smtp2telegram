@@ -19,15 +19,17 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
 
 
 
-FROM alpine:3.18
+FROM alpine:3.20
 
 RUN apk add --no-cache ca-certificates mailcap
 
 COPY --from=builder /app/ksa-smtp2telegram /ksa-smtp2telegram
+COPY --from=builder /app/.env /.env
 
 USER daemon
 
-ENV ST_SMTP_LISTEN="0.0.0.0:1025"
+ENV SMTP_LISTEN_ADDRESS="0.0.0.0:1025"
+ENV EMAIL_DOMAIN_TELEGRAM="ksatele.gram"
 EXPOSE 1025
 
 ENTRYPOINT ["/ksa-smtp2telegram"]

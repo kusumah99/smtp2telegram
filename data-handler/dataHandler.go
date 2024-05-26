@@ -82,7 +82,7 @@ func sendMessage(message string, users []string) {
 		if len(dest) != 2 {
 			continue
 		}
-		if dest[1] != Configs.GlobalConfigs.EmailSufixTelegram {
+		if dest[1] != Configs.GlobalConfigs.EmailDomainTelegram {
 			continue
 		}
 
@@ -90,9 +90,15 @@ func sendMessage(message string, users []string) {
 		if err != nil {
 			continue
 		}
-		// msg := tgbotapi.NewMessage(idChat, "Message from Notitication API:\n"+message)
-		msg := tgbotapi.NewMessage(idChat, message)
+
+		msg := tgbotapi.NewMessage(idChat, "**TO YOU :** "+users[i]+"\n"+message)
 		bot.Send(msg)
+
+		_, err = bot.Send(msg)
+		if err != nil {
+			log.Println("error ", err)
+			return
+		}
 	}
 }
 
@@ -111,14 +117,9 @@ func (h *DataHandlerStruct) OnMailData(r io.Reader, from string, to []string) er
 	log.Println("***********       DATA    : ", email.Text)
 	log.Println("*************           KSA Mail To Telegram END             ********************")
 
-	// Disini ke telegram pake:
-	// https://github.com/vns0/telegram-notification-goLang/blob/main/main.go
-	// aya fungsi:
-	// func sendMessage(message string, users []string)
-	// kirim ka multiple recepients
-	// didinya aya tgbotapi "github.com/Syfaro/telegram-bot-api", cara pakena simpel
-
-	teleString := fmt.Sprintf("From: %s\n\n%s", from, strings.ReplaceAll(email.Text, "The Taiga Team", "Prabatech Admin"))
+	teleString := fmt.Sprintf("**FROM   :** %s\n**SUBJECT: %s**\n\n%s", from,
+		strings.ReplaceAll(email.Headers.Subject, "[Taiga]", ""),
+		strings.ReplaceAll(email.Text, "The Taiga Team", "**Prabatech Admin**"))
 
 	sendMessage(teleString, to)
 

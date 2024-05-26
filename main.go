@@ -7,18 +7,15 @@ import (
 	"log"
 )
 
-// var addr = "127.0.0.1:1025"
-// var addr = "0.0.0.0:1025"
-
 func main() {
-	// TesTelegram()
 
-	addr := Configs.GlobalConfigs.HostAddress
-	// addr = os.Getenv("ST_SMTP_LISTEN")
 	dtHandler := DataHandler.DataHandlerStruct{}
 	SmtpServer.SetDataMailHandler(&dtHandler)
 
-	SmtpServer.SetConfig(addr, "localhost", true)
+	addr := Configs.GlobalConfigs.ListenAddress
+
+	// SmtpServer.SetConfig(addr, os.Stdout, true)
+	SmtpServer.SetConfig(addr, nil, true)
 
 	log.Println("Starting SMTP server at", addr)
 	log.Fatal(SmtpServer.ListenAndServe())

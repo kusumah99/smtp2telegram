@@ -6,7 +6,6 @@ import (
 	"io"
 	DataHandler "ksa-smtp-telegram/data-handler"
 	"net"
-	"os"
 	"sync"
 
 	"github.com/emersion/go-sasl"
@@ -294,15 +293,15 @@ var smtp_svr *smtp.Server
 // 	mailHandler = dataHandler
 // }
 
-func SetConfig(serverAddress, domain string, allowInsecureAuth bool) {
+func SetConfig(serverAddress string, DebugWriter io.Writer, allowInsecureAuth bool) {
 	flag.Parse()
 
 	smtp_svr = smtp.NewServer(&backend{})
 
 	smtp_svr.Addr = serverAddress
-	smtp_svr.Domain = domain
+	smtp_svr.Domain = "localhost"
 	smtp_svr.AllowInsecureAuth = allowInsecureAuth
-	smtp_svr.Debug = os.Stdout
+	smtp_svr.Debug = DebugWriter
 
 }
 
