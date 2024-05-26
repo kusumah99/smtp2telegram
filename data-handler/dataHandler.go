@@ -91,13 +91,17 @@ func sendMessage(message string, users []string) {
 			continue
 		}
 
-		msg := tgbotapi.NewMessage(idChat, "**TO YOU :** "+users[i]+"\n"+message)
-		bot.Send(msg)
+		strMsg := "**TO YOU :** " + users[i] + "\n" + message
+		log.Println("************************   Text to Telegram    *************************")
+		log.Println(strMsg)
+		log.Println("*********************   KSA Mail To Telegram END   ************************")
 
+		msg := tgbotapi.NewMessage(idChat, strMsg)
+		// bot.Send(msg)
 		_, err = bot.Send(msg)
 		if err != nil {
 			log.Println("error ", err)
-			return
+			continue
 		}
 	}
 }
@@ -108,7 +112,7 @@ func (h *DataHandlerStruct) OnMailData(r io.Reader, from string, to []string) er
 		// log.Fatal(err)
 		return err
 	}
-	log.Println("*************           KSA Mail To Telegram Begin           ********************")
+	log.Println("*************             KSA Mail To Telegram              ********************")
 	// log.Println("***********       FROM    : ", email.Headers.From)
 	// log.Println("***********       TO      : ", email.Headers.To[0].)
 	log.Println("***********       FROM    : ", from)
@@ -118,7 +122,7 @@ func (h *DataHandlerStruct) OnMailData(r io.Reader, from string, to []string) er
 	log.Println("*************           KSA Mail To Telegram END             ********************")
 
 	teleString := fmt.Sprintf("**FROM   :** %s\n**SUBJECT: %s**\n\n%s", from,
-		strings.ReplaceAll(email.Headers.Subject, "[Taiga]", ""),
+		strings.ReplaceAll(email.Headers.Subject, "[Taiga] ", ""),
 		strings.ReplaceAll(email.Text, "The Taiga Team", "**Prabatech Admin**"))
 
 	sendMessage(teleString, to)
