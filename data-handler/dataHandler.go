@@ -69,26 +69,29 @@ func (h *DataHandlerStruct) OnMailCreated(data []byte, from string, to []string)
 // }
 
 func sendMessage(message string, users []string) {
-	log.Println("Masuk Send Text")
 	for i := range users {
 		bot, err := tgbotapi.NewBotAPI(Configs.GlobalConfigs.TelegramToken)
 		if err != nil {
 			// log.Panic(err)
 			log.Println(err)
+			log.Println("ERROR 1")
 			return
 		}
 
 		// Check domain sufix
 		dest := strings.Split(users[i], "@")
 		if len(dest) != 2 {
+			log.Println("ERROR 2")
 			continue
 		}
 		if dest[1] != Configs.GlobalConfigs.EmailDomainTelegram {
+			log.Println("ERROR 3", Configs.GlobalConfigs.EmailDomainTelegram)
 			continue
 		}
 
 		idChat, err := strconv.ParseInt(dest[0], 10, 64)
 		if err != nil {
+			log.Println("ERROR 4")
 			continue
 		}
 
