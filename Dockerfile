@@ -1,5 +1,5 @@
 # Jika menjalankan dengan Docker run:
-# $ docker run -env-file .env -d -p 25:1025 --name smtp2telegram kusumah99/smtp2telegram
+# $ docker run --env-file .env -d -p 25:1025 --name smtp2telegram kusumah99/smtp2telegram
 #
 # Jika menggunakan docker compose, di section service, pasang sbb:
 # services:
@@ -35,13 +35,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
 
 
 
-#FROM alpine:3.20
+FROM alpine:3.20
 
-#RUN apk add --no-cache ca-certificates mailcap
-
-FROM scratch
-
-WORKDIR /
+RUN apk add --no-cache ca-certificates mailcap
 
 COPY --from=builder /app/ksa-smtp2telegram /ksa-smtp2telegram
 COPY --from=builder /app/.env /.env
