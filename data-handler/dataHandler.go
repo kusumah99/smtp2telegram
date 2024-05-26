@@ -95,13 +95,13 @@ func sendMessage(message string, users []string) {
 			continue
 		}
 
-		strMsg := "**TO YOU :** " + users[i] + "\n" + message
+		strMsg := "**FOR YOU:** " + users[i] + "\n" + message
 		log.Println("************************   Text to Telegram    *************************")
 		log.Println(strMsg)
 		log.Println("*********************   KSA Mail To Telegram END   ************************")
 
 		msg := tgbotapi.NewMessage(idChat, strMsg)
-		// bot.Send(msg)
+		msg.ParseMode = tgbotapi.ModeMarkdown
 		_, err = bot.Send(msg)
 		if err != nil {
 			log.Println("error ", err)
