@@ -69,6 +69,7 @@ func (h *DataHandlerStruct) OnMailCreated(data []byte, from string, to []string)
 // }
 
 func sendMessage(message string, users []string) {
+	log.Println("Masuk Send Text")
 	for i := range users {
 		bot, err := tgbotapi.NewBotAPI(Configs.GlobalConfigs.TelegramToken)
 		if err != nil {
@@ -124,6 +125,8 @@ func (h *DataHandlerStruct) OnMailData(r io.Reader, from string, to []string) er
 	teleString := fmt.Sprintf("**FROM   :** %s\n**SUBJECT: %s**\n\n%s", from,
 		strings.ReplaceAll(email.Headers.Subject, "[Taiga] ", ""),
 		strings.ReplaceAll(email.Text, "The Taiga Team", "**Prabatech Admin**"))
+
+	log.Println("***** String to send:\n", teleString)
 
 	sendMessage(teleString, to)
 
