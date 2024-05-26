@@ -28,8 +28,8 @@ COPY --from=builder /app/.env /.env
 
 USER daemon
 
-ENV SMTP_LISTEN_ADDRESS="0.0.0.0:1025"
-ENV EMAIL_DOMAIN_TELEGRAM="ksatele.gram"
+#ENV SMTP_LISTEN_ADDRESS="0.0.0.0:1025"
+#ENV EMAIL_DOMAIN_TELEGRAM="ksatele.gram"	# konfigurasi ini nimpa seting .env
 EXPOSE 1025
 
 ENTRYPOINT ["/ksa-smtp2telegram"]
