@@ -1,0 +1,21 @@
+version: "3.5"
+
+x-environment: &ksaemail2smtp-environment 
+  TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+  SMTP_LISTEN_ADDRESS: ${SMTP_LISTEN_ADDRESS}
+  EMAIL_DOMAIN_TELEGRAM: ${EMAIL_DOMAIN_TELEGRAM}
+
+services:
+  ksa-email-to-telegram:
+    image: kusumah99/smtp2telegram:latest
+    environment:
+      <<: *ksaemail2smtp-environment
+      # TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      # SMTP_LISTEN_ADDRESS: ${SMTP_LISTEN_ADDRESS}
+      # EMAIL_DOMAIN_TELEGRAM: ${EMAIL_DOMAIN_TELEGRAM}
+    ports:
+      - 25:1025 # Set to the wanted port
+    restart: always    # unless-stopped
+    networks:
+      - taiga
+
